@@ -8,7 +8,7 @@ module Sequel
   module Plugins
     module Paperclip
       def self.apply(model, opts={}, &block)
-        model.class_attribute :attachments
+        model.class_attribute :attachments_definitions
         model.attachments = {}
       end
 
