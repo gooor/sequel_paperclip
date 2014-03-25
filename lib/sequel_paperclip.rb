@@ -9,7 +9,7 @@ module Sequel
     module Paperclip
       def self.apply(model, opts={}, &block)
         model.class_attribute :attachments_definitions
-        model.attachments = {}
+        model.attachments_definitions = {}
       end
 
       def self.configure(model, opts={}, &block)
@@ -40,7 +40,7 @@ module Sequel
           attr_accessor name
 
           Attachment.preprocess_options(options)
-          self.attachments = attachments.merge(name => options)
+          self.attachments_definitions = attachments_definitions.merge(name => options)
 
           unless instance_methods.include?(:"#{name}_filename") || instance_methods.include?(:"#{name}_basename")
             raise ArgumentError, "a column named #{name}_filename or #{name}_basename has to exist"
@@ -149,7 +149,7 @@ module Sequel
         end
 
         def after_destroy
-          self.class.attachments.each_key do |name|
+          self.class.attachments_definitions.each_key do |name|
             send("#{name}=", nil)
           end
 
