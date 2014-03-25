@@ -42,13 +42,12 @@ module Sequel
           Attachment.preprocess_options(options)
           self.attachments = attachments.merge(name => options)
 
-          columns = db_schema.keys
-          unless columns.include?(:"#{name}_filename") || columns.include?(:"#{name}_basename")
+          unless instance_methods.include?(:"#{name}_filename") || instance_methods.include?(:"#{name}_basename")
             raise ArgumentError, "a column named #{name}_filename or #{name}_basename has to exist"
           end
 
-          if columns.include?(:"#{name}_filename")
-            if columns.include?(:"#{name}_basename")
+          if instance_methods.include?(:"#{name}_filename")
+            if instance_methods.include?(:"#{name}_basename")
               raise ArgumentError, "it does not make sense to have a column named #{name}_filename and #{name}_basename"
             end
 
